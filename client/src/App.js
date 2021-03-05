@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import {
@@ -8,6 +8,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -24,6 +25,9 @@ function App() {
       });
       const parseRes = await response.json();
       parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      toast.error(parseRes, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     } catch (error) {
       console.error(error.message);
     }
@@ -68,6 +72,7 @@ function App() {
               )
             }
           />
+          <Route exact path="/" render={(props) => <Home />} />
         </Switch>
       </Router>
       <ToastContainer />

@@ -29,6 +29,7 @@ router.post("/register", validInfo, async (req, res) => {
     res.status(500).json("Server Error");
   }
 });
+
 //login
 router.post("/login", validInfo, async (req, res) => {
   try {
@@ -62,4 +63,5 @@ router.get("/verify", authorization, validInfo, async (req, res) => {
     res.status(500).json("Server Error");
   }
 });
+
 module.exports = router;
