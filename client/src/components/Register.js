@@ -23,7 +23,7 @@ const Register = ({ setAuth }) => {
         body: JSON.stringify(body),
       });
       const parseRes = await response.json();
-      if (parseRes) {
+      if (parseRes.token) {
         localStorage.setItem("token", parseRes.token);
         toast.success("Registered successfully!", {
           position: toast.POSITION.BOTTOM_CENTER,
