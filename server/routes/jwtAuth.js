@@ -13,7 +13,7 @@ router.post("/register", validInfo, async (req, res) => {
       user_email,
     ]);
     if (user.rows.length !== 0) {
-      return res.status(401).send("User already exists!");
+      return res.status(401).json("User already exists!");
     }
     const saltRound = 10;
     const salt = await bcrypt.genSalt(saltRound);
@@ -26,7 +26,7 @@ router.post("/register", validInfo, async (req, res) => {
     res.json({ token });
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server Error");
+    res.status(500).json("Server Error");
   }
 });
 //login
@@ -37,29 +37,29 @@ router.post("/login", validInfo, async (req, res) => {
       user_email,
     ]);
     if (user.rows.length === 0) {
-      return res.status(401).send("Password or Email is incorrect!");
+      return res.status(401).json("Password or Email is incorrect!");
     }
     const validatePassword = await bcrypt.compare(
       user_password,
       user.rows[0].user_password
     );
     if (!validatePassword) {
-      return res.status(401).send("Password or Email is incorrect!");
+      return res.status(401).json("Password or Email is incorrect!");
     }
     const token = jwtGenerator(user.rows[0].user_id);
     res.json({ token });
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server Error");
+    res.status(500).json("Server Error");
   }
 });
 
-router.get("/verify", authorization, async (req, res) => {
+router.get("/verify", authorization, validInfo, async (req, res) => {
   try {
     res.json(true);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server Error");
+    res.status(500).json("Server Error");
   }
 });
 module.exports = router;
